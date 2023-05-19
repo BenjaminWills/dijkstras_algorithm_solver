@@ -19,7 +19,7 @@ class Network:
         self.num_nodes = adjacency_matrix.shape[0]
         self.node_names = node_names or range(self.num_nodes)
 
-    def get_shortest_distances(self, node: int) -> ROUTES:
+    def get_shortest_distances(self, node_name: str) -> ROUTES:
         """Uses Dijkstras algorithm to find the shortest distances to all of the nodes
 
         Parameters
@@ -35,9 +35,9 @@ class Network:
         unvisited_nodes = {n: 1 for n in range(0, self.num_nodes)}
         visited_nodes = {n: 0 for n in range(0, self.num_nodes)}
 
-        first_node_name = self.node_names[node]
-        routes = {first_node_name: {"distance": 0, "route": [first_node_name]}}
+        routes = {node_name: {"distance": 0, "route": [node_name]}}
 
+        node = self.node_names.index(node_name)
         # Visit source node
         unvisited_nodes[node] = 0
         visited_nodes[node] = 1
