@@ -28,6 +28,7 @@ class Network:
         """
         unvisited_nodes = {n: 1 for n in range(0, self.num_nodes)}
         visited_nodes = {n: 0 for n in range(0, self.num_nodes)}
+        routes = {n: [node] for n in range(0, self.num_nodes)}
 
         # Visit source node
         unvisited_nodes[node] = 0
@@ -40,17 +41,8 @@ class Network:
         # Start loop
         while self.still_nodes_to_visit(unvisited_nodes):
             # Find nearest neighbours to the most recent visited node
-            nearest_neighbours = copy.deepcopy(
-                self.adjacency_matrix[last_visited, :]
-            )  # Deep copy to avoid scoping issues
-
-            maximus = nearest_neighbours.max()
-            nearest_neighbours[nearest_neighbours == 0] = (
-                maximus + 1
-            )  # Avoiding issue of 0 values
-            nearest_neighbour, nearest_neighbour_distance = (
-                nearest_neighbours.argmin(),  # Nearest neighbour node name
-                nearest_neighbours.min(),  # Nearest neighbout distance
+            nearest_neighbour, nearest_neighbour_distance = self.get_nearest_neighbour(
+                last_visited
             )
 
             new_distance = distance_matrix[last_visited] + nearest_neighbour_distance
@@ -60,17 +52,34 @@ class Network:
 
             unvisited_nodes[nearest_neighbour] = 0
             visited_nodes[nearest_neighbour] = 1
+
+            # print(last_visited, nearest_neighbour)
+            if last_visited != node:
+                routes[last_visited].append(nearest_neighbour)
+
             last_visited = nearest_neighbour
 
         formatted_distance_matrix = {
             node_name: distance
             for node_name, distance in zip(self.node_names, distance_matrix)
         }
-
+        # print(routes)
         return formatted_distance_matrix
 
     def init_distance_matrix(self, source_node: int) -> np.array:
-        # Initialise distance matrix
+        """Initialise n dimensional vector to hold distances from the starting node
+        These will be arbritrarily large apart from the base node.
+
+        Parameters
+        ----------
+        source_node : int
+            The index of the source node
+
+        Returns
+        -------
+        np.array
+            An array consisting of infinities and one 0 at the index of the source node
+        """
         distance_matrix = np.full(self.adjacency_matrix.shape[0], np.inf)
         distance_matrix[source_node] = 0
         return distance_matrix
@@ -90,6 +99,21 @@ class Network:
             True if there are still nodes that have not been visited, False otherwise
         """
         return list(unvisited_nodes.values()) != [0] * self.num_nodes
+
+    def get_nearest_neighbour(self, last_visited_node: int) -> tuple[float]:
+        nearest_neighbours = copy.deepcopy(
+            self.adjacency_matrix[last_visited_node, :]
+        )  # Deep copy to avoid scoping issues
+
+        maximus = nearest_neighbours.max()
+        nearest_neighbours[nearest_neighbours == 0] = (
+            maximus + 1
+        )  # Avoiding issue of 0 values
+        nearest_neighbour, nearest_neighbour_distance = (
+            nearest_neighbours.argmin(),  # Nearest neighbour node name
+            nearest_neighbours.min(),  # Nearest neighbout distance
+        )
+        return (nearest_neighbour, nearest_neighbour_distance)
 
 
 if __name__ == "__main__":
