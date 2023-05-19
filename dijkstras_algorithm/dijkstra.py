@@ -33,14 +33,12 @@ class Network:
             A dictionary containing information on the distance to a node and it's path
         """
         unvisited_nodes = {n: 1 for n in range(0, self.num_nodes)}
-        visited_nodes = {n: 0 for n in range(0, self.num_nodes)}
 
         routes = {node_name: {"distance": 0, "route": [node_name]}}
 
         node = self.node_names.index(node_name)
         # Visit source node
         unvisited_nodes[node] = 0
-        visited_nodes[node] = 1
 
         last_visited = node
 
@@ -77,7 +75,6 @@ class Network:
                         }
 
             unvisited_nodes[nearest_neighbour] = 0
-            visited_nodes[nearest_neighbour] = 1
 
             last_visited = nearest_neighbour
 
