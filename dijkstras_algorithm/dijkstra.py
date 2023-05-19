@@ -75,12 +75,7 @@ class Network:
 
             last_visited = nearest_neighbour
 
-        formatted_distance_matrix = {
-            node_name: distance
-            for node_name, distance in zip(self.node_names, distance_matrix)
-        }
-        print(routes)
-        return formatted_distance_matrix
+        return routes
 
     def init_distance_matrix(self, source_node: int) -> np.array:
         """Initialise n dimensional vector to hold distances from the starting node
