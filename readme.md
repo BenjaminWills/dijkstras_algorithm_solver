@@ -27,3 +27,11 @@ We can denote a graph mathematically using a `direction matrix`:
 </div>
 
 The way to interperet this is seeing the y axis as being the `node from` and the x axis as being the `node to`, so for example if we want to know the distance going from node `A` to node `B`, we look for `A` vertically and `B` horizontally, these align on `4` showing that the distance between them is 4, for a sanity check we can compare to the diagram, and it's correct!
+
+### Dijkstra's algorithm
+
+Now we can tackle the beast that is `Dijkstra's algorithm`. Here are the steps:
+
+1. Choose a starting node, create a list of distances of nodes from that starting node, each element apart from the element that represents this node should be set to $\infin$, so it should look like [$\infin$,$\infin$,$\infin$,...,0,...,$\infin$], also create a list of unvisited nodes.
+2. Find all nodes that are `neighbours` of your node, meaning that they connect via an `edge`, for each edge found calculate the new distance to that node, if this distance is less than the distance stored in the distance list, replace that larger distance with this smaller one
+3. Move to the nearest neighbour to the previous node and repeat step 2. Terminate the algorithm if all nodes have been visited, i.e when your list of unvisited nodes is empty.
