@@ -4,7 +4,11 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 
-from typing import List
+from typing import List, Dict, Union
+
+ROUTES = Dict[
+    str, Dict[str, Union[List[str], float]]
+]  # Definition of the route dictionary
 
 
 class Network:
@@ -15,7 +19,7 @@ class Network:
         self.num_nodes = adjacency_matrix.shape[0]
         self.node_names = node_names or range(self.num_nodes)
 
-    def get_shortest_distances(self, node: int) -> dict[object, float]:
+    def get_shortest_distances(self, node: int) -> ROUTES:
         """Uses Dijkstras algorithm to find the shortest distances to all of the nodes
 
         Parameters
@@ -25,9 +29,8 @@ class Network:
 
         Returns
         -------
-        dict[object,float]
-            A dictionary who's keys are the node names and who's values are the distance of the selected node
-            to the respective node.
+        ROUTES:
+            A dictionary containing information on the distance to a node and it's path
         """
         unvisited_nodes = {n: 1 for n in range(0, self.num_nodes)}
         visited_nodes = {n: 0 for n in range(0, self.num_nodes)}
@@ -64,10 +67,13 @@ class Network:
 
                         nearest_neighbour_node_name = self.node_names[index]
                         last_visited_node_name = self.node_names[last_visited]
+                        updated_route = routes[last_visited_node_name]["route"] + [
+                            nearest_neighbour_node_name
+                        ]
+
                         routes[nearest_neighbour_node_name] = {
                             "distance": distance_matrix[index],
-                            "route": routes[last_visited_node_name]["route"]
-                            + [nearest_neighbour_node_name],
+                            "route": updated_route,
                         }
 
             unvisited_nodes[nearest_neighbour] = 0
