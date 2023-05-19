@@ -37,7 +37,7 @@ class Network:
         # Get initial distance matrix
         distance_matrix = self.init_distance_matrix(node)
         # Start loop
-        while list(unvisited_nodes.values()) != [0] * self.num_nodes:
+        while self.still_nodes_to_visit(unvisited_nodes):
             # Find nearest neighbours to the most recent visited node
             nearest_neighbours = copy.deepcopy(
                 self.adjacency_matrix[last_visited, :]
@@ -67,6 +67,22 @@ class Network:
         distance_matrix = np.full(self.adjacency_matrix.shape[0], np.inf)
         distance_matrix[source_node] = 0
         return distance_matrix
+
+    def still_nodes_to_visit(self, unvisited_nodes: dict[str, int]) -> bool:
+        """Returns True if there are still nodes that have not been visited
+
+        Parameters
+        ----------
+        unvisited_nodes : dict[str, int]
+            A dictionary with keys being the indexes of the nodes and the value being 1 if the node
+            has not been visited yet and 0 otherwise
+
+        Returns
+        -------
+        bool
+            True if there are still nodes that have not been visited, False otherwise
+        """
+        return list(unvisited_nodes.values()) != [0] * self.num_nodes
 
 
 if __name__ == "__main__":
