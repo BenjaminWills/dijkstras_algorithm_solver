@@ -31,7 +31,9 @@ class Network:
         """
         unvisited_nodes = {n: 1 for n in range(0, self.num_nodes)}
         visited_nodes = {n: 0 for n in range(0, self.num_nodes)}
-        routes = {n: [node] for n in range(0, self.num_nodes)}
+
+        first_node_name = self.node_names[node]
+        routes = {first_node_name: {"distance": 0, "route": [first_node_name]}}
 
         # Visit source node
         unvisited_nodes[node] = 0
@@ -60,12 +62,16 @@ class Network:
                     if new_distance < distance_matrix[index]:
                         distance_matrix[index] = new_distance
 
+                        nearest_neighbour_node_name = self.node_names[index]
+                        last_visited_node_name = self.node_names[last_visited]
+                        routes[nearest_neighbour_node_name] = {
+                            "distance": distance_matrix[index],
+                            "route": routes[last_visited_node_name]["route"]
+                            + [nearest_neighbour_node_name],
+                        }
+
             unvisited_nodes[nearest_neighbour] = 0
             visited_nodes[nearest_neighbour] = 1
-
-            # print(last_visited, nearest_neighbour)
-            if last_visited != node:
-                routes[last_visited].append(nearest_neighbour)
 
             last_visited = nearest_neighbour
 
