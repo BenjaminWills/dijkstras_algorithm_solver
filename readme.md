@@ -1,4 +1,4 @@
-# Dijkstra`s algorithm visualiser
+# Dijkstra's algorithm visualiser
 
 This is just a fun tool to visualise how Dijkstra`s algorithm works.
 
@@ -32,6 +32,15 @@ The way to interperet this is seeing the y axis as being the `node from` and the
 
 Now we can tackle the beast that is `Dijkstra's algorithm`. Here are the steps:
 
-1. Choose a starting node, create a list of distances of nodes from that starting node, each element apart from the element that represents this node should be set to ∞, so it should look like [∞,∞,∞,...,0,...,∞], also create a list of unvisited nodes.
-2. Find all nodes that are `neighbours` of your node, meaning that they connect via an `edge`, for each edge found calculate the new distance to that node, if this distance is less than the distance stored in the distance list, replace that larger distance with this smaller one
+1. Choose a starting node, create a list of distances of nodes from that starting node, each element apart from the element that represents this node should be set to ∞, so it should look like [∞,∞,∞,...,0,...,∞], also create a list of unvisited nodes to keep track which nodes you have visited.
+2. Find all nodes that are `neighbours` of your node, meaning that they connect via an `edge`, for each edge found calculate the new distance to that node, if this distance is less than the distance stored in the distance list, replace that larger distance with this smaller one.
 3. Move to the nearest neighbour to the previous node and repeat step 2. Terminate the algorithm if all nodes have been visited, i.e when your list of unvisited nodes is empty.
+
+### Time complexity
+
+You may be asking why it would be worth it to use `Dijkstra's algorithm`, we use it due to its `logarithmic` time complexity, meaning that it performs very well for large graphs, the order of the algorithm is actually:
+
+$$O(E\log(V))$$
+
+Where $E$ is the total number of edges and $V$ is the total number of nodes.
+
