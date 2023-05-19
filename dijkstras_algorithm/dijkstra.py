@@ -52,12 +52,14 @@ class Network:
 
             nearest_neighbours = copy.deepcopy(self.adjacency_matrix[last_visited, :])
 
-            new_distance = distance_matrix[last_visited] + nearest_neighbour_distance
-
             # The issue is we need to update ALL of the distances as this new vertex could reveal
             # a shorter route, so we do a for loop:
-            if distance_matrix[nearest_neighbour] > new_distance:
-                distance_matrix[nearest_neighbour] = new_distance
+            for index, neighbour in enumerate(nearest_neighbours):
+                # A neighbour is an index in which the distances > 0
+                if neighbour > 0:
+                    new_distance = distance_matrix[last_visited] + neighbour
+                    if new_distance < distance_matrix[index]:
+                        distance_matrix[index] = new_distance
 
             unvisited_nodes[nearest_neighbour] = 0
             visited_nodes[nearest_neighbour] = 1
