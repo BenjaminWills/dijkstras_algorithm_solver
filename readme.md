@@ -15,4 +15,15 @@ A `directed graph` is simply a graph with `edges` connecting `nodes` that can be
   <p style="text-align: center;">A directed graph with 5 nodes.</p>
 </div>
 
+We can see here that we can traverse from node `A` to node `B` but not from node `B` to node `A`!
 
+### Direction matrices
+
+We can denote a graph mathematically using a `direction matrix`:
+
+<div style="text-align: center;">
+  <img src="images/distance_matrix.png" alt="Graph" />
+  <p style="text-align: center;">The above graph's corresponding distance matrix</p>
+</div>
+
+The way to interperet this is seeing the y axis as being the `node from` and the x axis as being the `node to`, so for example if we want to know the distance going from node `A` to node `B`, we look for `A` vertically and `B` horizontally, these align on `4` showing that the distance between them is 4, for a sanity check we can compare to the diagram, and it's correct!
