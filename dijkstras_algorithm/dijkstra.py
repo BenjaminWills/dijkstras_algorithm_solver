@@ -46,10 +46,7 @@ class Network:
             # Find nearest neighbours to the most recent visited node
             # Deep copy to avoid scoping issues
             nearest_neighbours = copy.deepcopy(self.adjacency_matrix[last_visited, :])
-            nearest_neighbour, nearest_neighbour_distance = self.get_nearest_neighbour(
-                nearest_neighbours, last_visited
-            )
-
+            nearest_neighbour = self.get_nearest_neighbour(nearest_neighbours)
             nearest_neighbours = copy.deepcopy(self.adjacency_matrix[last_visited, :])
 
             # The issue is we need to update ALL of the distances as this new vertex could reveal
@@ -76,7 +73,7 @@ class Network:
             node_name: distance
             for node_name, distance in zip(self.node_names, distance_matrix)
         }
-        # print(routes)
+        print(routes)
         return formatted_distance_matrix
 
     def init_distance_matrix(self, source_node: int) -> np.array:
@@ -113,9 +110,7 @@ class Network:
         """
         return list(unvisited_nodes.values()) != [0] * self.num_nodes
 
-    def get_nearest_neighbour(
-        self, nearest_neighbours: np.array, last_visited_node: int
-    ) -> tuple[float]:
+    def get_nearest_neighbour(self, nearest_neighbours: np.array) -> int:
         """Gets the nearest neighbour to a vertex
 
         Parameters
@@ -125,19 +120,15 @@ class Network:
 
         Returns
         -------
-        tuple[float]
-            A tuple that is the index of the nearested neighbour node and the distance from the previous
-            node.
+        int
+            The index of the nearest neighbour
         """
         maximus = nearest_neighbours.max()
         nearest_neighbours[nearest_neighbours == 0] = (
             maximus + 1
         )  # Avoiding issue of 0 values
-        nearest_neighbour, nearest_neighbour_distance = (
-            nearest_neighbours.argmin(),  # Nearest neighbour node name
-            nearest_neighbours.min(),  # Nearest neighbout distance
-        )
-        return (nearest_neighbour, nearest_neighbour_distance)
+        nearest_neighbour = nearest_neighbours.argmin()  # Nearest neighbour node name
+        return nearest_neighbour
 
     def draw_graph(self):
         """
