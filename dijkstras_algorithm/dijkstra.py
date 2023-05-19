@@ -1,5 +1,8 @@
 import numpy as np
 import copy
+import networkx as nx
+import matplotlib.pyplot as plt
+
 
 from typing import List
 
@@ -115,6 +118,17 @@ class Network:
         )
         return (nearest_neighbour, nearest_neighbour_distance)
 
+    def draw_graph(self):
+        graph = nx.DiGraph(self.adjacency_matrix)
+        graph = nx.relabel_nodes(
+            graph, {n: name for n, name in zip(range(self.num_nodes), self.node_names)}
+        )
+        pos = nx.spring_layout(graph)  # pos = nx.nx_agraph.graphviz_layout(G)
+        nx.draw_networkx(graph, pos)
+        labels = nx.get_edge_attributes(graph, "weight")
+        nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
+        plt.show()
+
 
 if __name__ == "__main__":
     adjacency_matrix = np.array(
@@ -122,4 +136,4 @@ if __name__ == "__main__":
     )
     node_names = list("ABCD")
     network = Network(adjacency_matrix, node_names)
-    print(network.get_shortest_distances(0))
+    print(network.draw_graph())
