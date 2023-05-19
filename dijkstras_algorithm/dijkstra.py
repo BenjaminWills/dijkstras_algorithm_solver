@@ -12,7 +12,7 @@ class Network:
         self.num_nodes = adjacency_matrix.shape[0]
         self.node_names = node_names or range(self.num_nodes)
 
-    def get_shortest_distances(self, node: int) -> np.array:
+    def get_shortest_distances(self, node: int) -> dict[object, float]:
         """Uses Dijkstras algorithm to find the shortest distances to all of the nodes
 
         Parameters
@@ -22,8 +22,9 @@ class Network:
 
         Returns
         -------
-        np.array
-            An array whose elements correspond to the shortest distance the node with that index
+        dict[object,float]
+            A dictionary who's keys are the node names and who's values are the distance of the selected node
+            to the respective node.
         """
         unvisited_nodes = {n: 1 for n in range(0, self.num_nodes)}
         visited_nodes = {n: 0 for n in range(0, self.num_nodes)}
@@ -60,7 +61,13 @@ class Network:
             unvisited_nodes[nearest_neighbour] = 0
             visited_nodes[nearest_neighbour] = 1
             last_visited = nearest_neighbour
-        return distance_matrix
+
+        formatted_distance_matrix = {
+            node_name: distance
+            for node_name, distance in zip(self.node_names, distance_matrix)
+        }
+
+        return formatted_distance_matrix
 
     def init_distance_matrix(self, source_node: int) -> np.array:
         # Initialise distance matrix
@@ -89,5 +96,6 @@ if __name__ == "__main__":
     adjacency_matrix = np.array(
         [[0, 3, 0, 1], [0, 0, 1, 0], [0, 0, 0, 0], [0, 1, 2, 0]]
     )
-    network = Network(adjacency_matrix)
+    node_names = list("ABCD")
+    network = Network(adjacency_matrix, node_names)
     print(network.get_shortest_distances(0))
