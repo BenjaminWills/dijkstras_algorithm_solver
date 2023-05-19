@@ -23,7 +23,7 @@ class Network:
         Returns
         -------
         np.array
-            An array whose elements correspond to the nodes
+            An array whose elements correspond to the shortest distance the node with that index
         """
         unvisited_nodes = {n: 1 for n in range(0, self.num_nodes)}
         visited_nodes = {n: 0 for n in range(0, self.num_nodes)}
