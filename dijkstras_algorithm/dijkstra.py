@@ -53,10 +53,12 @@ class Network:
             nearest_neighbours = copy.deepcopy(self.adjacency_matrix[last_visited, :])
 
             # The issue is we need to update ALL of the distances as this new vertex could reveal
-            # a shorter route, so we do a for loop:
+            # a shorter route, so we do a for loop through all the applicable neighbours
             for index, neighbour in enumerate(nearest_neighbours):
-                # A neighbour is an index in which the distances > 0
-                if neighbour > 0:
+                # A neighbour is an index in which the distances > 0 (as this means there is a direct link)
+                if neighbour:
+                    # Define the new distance as the distance to the previous node plus that neighbour distance
+                    # if this is less than the distance in the distance matrix, we have found a faster route
                     new_distance = distance_matrix[last_visited] + neighbour
                     if new_distance < distance_matrix[index]:
                         distance_matrix[index] = new_distance
