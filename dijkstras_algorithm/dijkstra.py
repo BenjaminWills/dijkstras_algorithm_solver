@@ -44,12 +44,18 @@ class Network:
         # Start loop
         while self.still_nodes_to_visit(unvisited_nodes):
             # Find nearest neighbours to the most recent visited node
+            # Deep copy to avoid scoping issues
+            nearest_neighbours = copy.deepcopy(self.adjacency_matrix[last_visited, :])
             nearest_neighbour, nearest_neighbour_distance = self.get_nearest_neighbour(
-                last_visited
+                nearest_neighbours, last_visited
             )
+
+            nearest_neighbours = copy.deepcopy(self.adjacency_matrix[last_visited, :])
 
             new_distance = distance_matrix[last_visited] + nearest_neighbour_distance
 
+            # The issue is we need to update ALL of the distances as this new vertex could reveal
+            # a shorter route, so we do a for loop:
             if distance_matrix[nearest_neighbour] > new_distance:
                 distance_matrix[nearest_neighbour] = new_distance
 
@@ -103,7 +109,9 @@ class Network:
         """
         return list(unvisited_nodes.values()) != [0] * self.num_nodes
 
-    def get_nearest_neighbour(self, last_visited_node: int) -> tuple[float]:
+    def get_nearest_neighbour(
+        self, nearest_neighbours: np.array, last_visited_node: int
+    ) -> tuple[float]:
         """Gets the nearest neighbour to a vertex
 
         Parameters
@@ -117,10 +125,6 @@ class Network:
             A tuple that is the index of the nearested neighbour node and the distance from the previous
             node.
         """
-        nearest_neighbours = copy.deepcopy(
-            self.adjacency_matrix[last_visited_node, :]
-        )  # Deep copy to avoid scoping issues
-
         maximus = nearest_neighbours.max()
         nearest_neighbours[nearest_neighbours == 0] = (
             maximus + 1
@@ -152,4 +156,4 @@ if __name__ == "__main__":
     )
     node_names = list("ABCD")
     network = Network(adjacency_matrix, node_names)
-    print(network.draw_graph())
+    print(network.get_shortest_distances(0))
