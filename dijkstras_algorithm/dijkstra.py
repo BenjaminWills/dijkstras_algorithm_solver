@@ -104,6 +104,19 @@ class Network:
         return list(unvisited_nodes.values()) != [0] * self.num_nodes
 
     def get_nearest_neighbour(self, last_visited_node: int) -> tuple[float]:
+        """Gets the nearest neighbour to a vertex
+
+        Parameters
+        ----------
+        last_visited_node : int
+            The index of the previously visited node
+
+        Returns
+        -------
+        tuple[float]
+            A tuple that is the index of the nearested neighbour node and the distance from the previous
+            node.
+        """
         nearest_neighbours = copy.deepcopy(
             self.adjacency_matrix[last_visited_node, :]
         )  # Deep copy to avoid scoping issues
@@ -119,6 +132,9 @@ class Network:
         return (nearest_neighbour, nearest_neighbour_distance)
 
     def draw_graph(self):
+        """
+        Draws the graph with the weights and the node names
+        """
         graph = nx.DiGraph(self.adjacency_matrix)
         graph = nx.relabel_nodes(
             graph, {n: name for n, name in zip(range(self.num_nodes), self.node_names)}
