@@ -45,3 +45,5 @@ $$O(E\log(V))$$
 Where $E$ is the total number of edges and $V$ is the total number of nodes.
 
 This means that for each edge added the time to run the algorithm increases multiplicatively and for each node added the time increases logarithmically.
+
+Note that the proper way to make this algorithm efficient is to use C++ or some other `lower level` language than python!
