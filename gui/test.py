@@ -1,16 +1,29 @@
 import networkx as nx
+import numpy as np
 import tkinter as tk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+from dijkstras_algorithm.dijkstra import Network
 
 
 class GraphWindow(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        # Create a NetworkX graph
-        self.graph = nx.Graph()
-        self.graph.add_edges_from([(1, 2), (2, 3), (3, 4), (4, 1)])
+        # Initialise graph
+        self.distance_matrix = np.array(
+            [
+                [0.0, 4.0, 0.0, 2.0, 0.0],
+                [0.0, 0.0, 5.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0, 0.0, 3.0],
+                [0.0, 1.0, 0.0, 0.0, 6.0],
+                [0.0, 0.0, 0.0, 0.0, 0.0],
+            ]
+        )
+        node_names = list("ABCDE")
+        # Initialise network
+        # self.network = Network(distance_matrix, node_names)
 
         # Create a figure for matplotlib
         self.figure = Figure(figsize=(5, 5))
@@ -28,9 +41,10 @@ class GraphWindow(tk.Tk):
         self.figure.clf()
 
         # Draw the NetworkX graph on the figure
-        nx.draw(self.graph, with_labels=True, ax=self.figure.add_subplot(111))
-
-        # Update the canvas
+        # self.network.highlight_fastest_path("A", "B", ax=self.figure.add_subplot(111))
+        graph = nx.DiGraph(self.distance_matrix)  # Update the canvas
+        pos = nx.spring_layout(graph)
+        nx.draw(graph, pos, ax=self.figure.add_subplot(111))
         self.canvas.draw()
 
 
