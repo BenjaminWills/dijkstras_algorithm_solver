@@ -210,4 +210,4 @@ if __name__ == "__main__":
     )
     node_names = list("ABCD")
     network = Network(adjacency_matrix, node_names)
-    print(network.get_shortest_distances("A"))
+    network.get_shortest_distances("A")
