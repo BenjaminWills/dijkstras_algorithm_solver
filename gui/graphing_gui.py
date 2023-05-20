@@ -1,10 +1,11 @@
-import networkx as nx
-import tkinter as tk
-import numpy as np
 import string
+import tkinter as tk
 
-from matplotlib.figure import Figure
+import networkx as nx
+import numpy as np
+from dijkstras_algorithm.dijkstra import Network
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 
 
 class GraphWindow(tk.Tk):
@@ -18,7 +19,7 @@ class GraphWindow(tk.Tk):
         self.graph = nx.Graph()
 
         # Create a figure for matplotlib
-        self.figure = Figure(figsize=(5, 5))
+        self.figure = Figure(figsize=(7, 7))
 
         # Create a canvas for the figure
         self.canvas = FigureCanvasTkAgg(self.figure, master=self)
@@ -52,11 +53,10 @@ class GraphWindow(tk.Tk):
         self.num_nodes = int(self.node_entry.get())
 
         # Label the nodes after letters rather than numbers
+        self.node_names = string.ascii_uppercase[: self.num_nodes]
         self.node_label_map = {
             node_id: node_name
-            for node_id, node_name in zip(
-                range(self.num_nodes), string.ascii_uppercase[: self.num_nodes]
-            )
+            for node_id, node_name in zip(range(self.num_nodes), self.node_names)
         }
 
         # Clear the matrix frame
@@ -85,13 +85,8 @@ class GraphWindow(tk.Tk):
     def create_graph(self):
         # Set the matrix elements as edge weights in the graph
         self.graph.clear()
-        self.graph.add_weighted_edges_from(
-            [
-                (i, j, self.matrix_entries[i][j])
-                for i in range(self.num_nodes)
-                for j in range(self.num_nodes)
-            ]
-        )
+        self.network = Network(self.distance_matrix, self.node_names)
+        self.graph = self.network.draw_graph()
 
         # Draw the graph on the canvas
         self.draw_graph()
@@ -101,8 +96,8 @@ class GraphWindow(tk.Tk):
         self.figure.clf()
 
         # Draw the NetworkX graph on the figure
-        nx.draw(self.graph, with_labels=True, ax=self.figure.add_subplot(111))
-
+        pos = nx.spring_layout(self.graph)
+        nx.draw(self.graph, pos, with_labels=True, ax=self.figure.add_subplot(111))
         # Update the canvas
         self.canvas.draw()
 
