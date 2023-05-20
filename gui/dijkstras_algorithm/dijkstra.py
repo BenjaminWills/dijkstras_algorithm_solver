@@ -54,9 +54,9 @@ class Network:
         while self.still_nodes_to_visit(unvisited_nodes):
             # Find nearest neighbours to the most recent visited node
             # Deep copy to avoid scoping issues
-            nearest_neighbours = copy.deepcopy(self.adjacency_matrix[last_visited, :])
+
+            nearest_neighbours = self.adjacency_matrix[last_visited, :]
             nearest_neighbour = self.get_nearest_neighbour(nearest_neighbours)
-            nearest_neighbours = copy.deepcopy(self.adjacency_matrix[last_visited, :])
 
             # The issue is we need to update ALL of the distances as this new vertex could reveal
             # a shorter route, so we do a for loop through all the applicable neighbours
@@ -134,11 +134,14 @@ class Network:
         int
             The index of the nearest neighbour
         """
-        maximus = nearest_neighbours.max()
-        nearest_neighbours[nearest_neighbours == 0] = (
+        nearest_neighbours_copy = copy.deepcopy(nearest_neighbours)
+        maximus = nearest_neighbours_copy.max()
+        nearest_neighbours_copy[nearest_neighbours_copy == 0] = (
             maximus + 1
         )  # We do this to stop nodes with no direct connecting edge being chosen
-        nearest_neighbour = nearest_neighbours.argmin()  # Nearest neighbour node name
+        nearest_neighbour = (
+            nearest_neighbours_copy.argmin()
+        )  # Nearest neighbour node name
         return nearest_neighbour
 
     def draw_graph(self, display: bool = False):
