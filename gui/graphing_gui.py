@@ -50,6 +50,8 @@ class GraphWindow(tk.Tk):
     def create_matrix(self):
         # Get the number of nodes from the entry box
         self.num_nodes = int(self.node_entry.get())
+
+        # Label the nodes after letters rather than numbers
         self.node_label_map = {
             node_id: node_name
             for node_id, node_name in zip(
