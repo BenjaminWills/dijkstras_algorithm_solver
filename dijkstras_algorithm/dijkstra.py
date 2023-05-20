@@ -130,7 +130,7 @@ class Network:
         maximus = nearest_neighbours.max()
         nearest_neighbours[nearest_neighbours == 0] = (
             maximus + 1
-        )  # Avoiding issue of 0 values
+        )  # We do this to stop nodes with no direct connecting edge being chosen
         nearest_neighbour = nearest_neighbours.argmin()  # Nearest neighbour node name
         return nearest_neighbour
 
@@ -140,12 +140,51 @@ class Network:
         """
         graph = nx.DiGraph(self.adjacency_matrix)
         graph = nx.relabel_nodes(
-            graph, {n: name for n, name in zip(range(self.num_nodes), self.node_names)}
+            graph,
+            {
+                node_index: node_name
+                for node_index, node_name in zip(range(self.num_nodes), self.node_names)
+            },
         )
         pos = nx.spring_layout(graph)  # pos = nx.nx_agraph.graphviz_layout(G)
         nx.draw_networkx(graph, pos)
         labels = nx.get_edge_attributes(graph, "weight")
         nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
+        plt.show()
+
+    def highlight_fastest_path(self, from_node: str, to_node: str):
+        routes = self.get_shortest_distances(from_node)
+        path_route = routes[to_node]
+        distance, node_list = path_route.values()
+
+        graph = nx.DiGraph(self.adjacency_matrix)
+        graph = nx.relabel_nodes(
+            graph, {n: name for n, name in zip(range(self.num_nodes), self.node_names)}
+        )
+        pos = nx.spring_layout(graph)
+        nx.draw_networkx(graph, pos)
+        labels = nx.get_edge_attributes(graph, "weight")
+
+        # Creating the edge colour map
+        node_pairs = []
+        num_route_nodes = len(node_list)
+        for index in range(num_route_nodes):
+            if index + 1 < num_route_nodes:
+                node_pairs.append((node_list[index], node_list[index + 1]))
+        # This will give the list of all nodes to be coloured
+
+        colour_map = []
+        for edge in list(graph.edges):
+            if edge in node_pairs:
+                colour_map.append("red")
+            else:
+                colour_map.append("black")
+
+        # Colouring edges
+        nx.draw_networkx_edges(graph, pos, edge_color=colour_map)
+        # Drawing the edge distance labels
+        nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
+        # Display the output
         plt.show()
 
 
