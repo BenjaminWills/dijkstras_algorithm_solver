@@ -1,5 +1,7 @@
 import networkx as nx
 import tkinter as tk
+import numpy as np
+
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
@@ -12,7 +14,7 @@ class GraphWindow(tk.Tk):
         self.num_nodes = 0
 
         # Create a NetworkX graph
-        self.graph = nx.DiGraph()
+        self.graph = nx.Graph()
 
         # Create a figure for matplotlib
         self.figure = Figure(figsize=(5, 5))
@@ -52,31 +54,31 @@ class GraphWindow(tk.Tk):
         for widget in self.matrix_frame.winfo_children():
             widget.destroy()
 
+        # Create labels for row/column headers
+        for i in range(self.num_nodes):
+            row_label = tk.Label(self.matrix_frame, text=str(i + 1))
+            row_label.grid(row=i + 1, column=0, sticky=tk.W)
+            col_label = tk.Label(self.matrix_frame, text=str(i + 1))
+            col_label.grid(row=0, column=i + 1, sticky=tk.N)
+
         # Create an entry box for each matrix element
         self.matrix_entries = []
         for i in range(self.num_nodes):
             row_entries = []
             for j in range(self.num_nodes):
                 entry = tk.Entry(self.matrix_frame, width=5)
-                entry.grid(row=i, column=j)
-                row_entries.append(entry)
+                entry.grid(row=i + 1, column=j + 1)
+                entry.insert(tk.END, 0)  # Set the default value to 0
+                row_entries.append(entry.get())
             self.matrix_entries.append(row_entries)
+        self.distance_matrix = np.array(self.matrix_entries)
 
     def create_graph(self):
-        # Get the matrix elements from the entry boxes
-        distances = []
-        for i in range(self.num_nodes):
-            row_distances = []
-            for j in range(self.num_nodes):
-                distance = int(self.matrix_entries[i][j].get())
-                row_distances.append(distance)
-            distances.append(row_distances)
-
         # Set the matrix elements as edge weights in the graph
         self.graph.clear()
         self.graph.add_weighted_edges_from(
             [
-                (i, j, distances[i][j])
+                (i, j, self.matrix_entries[i][j])
                 for i in range(self.num_nodes)
                 for j in range(self.num_nodes)
             ]
@@ -90,8 +92,7 @@ class GraphWindow(tk.Tk):
         self.figure.clf()
 
         # Draw the NetworkX graph on the figure
-        pos = nx.spring_layout(self.graph)
-        nx.draw(self.graph, pos, with_labels=True, ax=self.figure.add_subplot(111))
+        nx.draw(self.graph, with_labels=True, ax=self.figure.add_subplot(111))
 
         # Update the canvas
         self.canvas.draw()
