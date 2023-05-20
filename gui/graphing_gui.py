@@ -139,15 +139,48 @@ class GraphWindow(tk.Tk):
         self.canvas.draw()
 
     def draw_fastest_path(self):
+
+        # Clear the figure
+        self.figure.clf()
+
         # Get the selected source and target nodes
         source_node = self.source_var.get()
         target_node = self.target_var.get()
 
         # Perform the fastest path calculation
-        # Replace with your own implementation
-        print("Finding fastest path...")
-        print("Source Node:", source_node)
-        print("Target Node:", target_node)
+        routes = self.network.get_shortest_distances(source_node)
+        path_route = routes[target_node]
+        distance, node_list = path_route.values()
+        pos = nx.spring_layout(self.graph)
+        nx.draw_networkx(self.graph, pos)
+        labels = nx.get_edge_attributes(self.graph, "weight")
+
+        # Creating the edge colour map
+        node_pairs = []
+        num_route_nodes = len(node_list)
+        for index in range(num_route_nodes):
+            if index + 1 < num_route_nodes:
+                node_pairs.append((node_list[index], node_list[index + 1]))
+        # This will give the list of all nodes to be coloured
+
+        colour_map = []
+        for edge in list(self.graph.edges):
+            if edge in node_pairs:
+                colour_map.append("red")
+            else:
+                colour_map.append("black")
+
+        # Colouring edges
+        nx.draw_networkx_edges(
+            self.graph, pos, edge_color=colour_map, ax=self.figure.add_subplot(111)
+        )
+        # Drawing the edge distance labels
+        nx.draw_networkx_edge_labels(
+            self.graph, pos, edge_labels=labels, ax=self.figure.add_subplot(111)
+        )
+        # Display the output
+        # Update the canvas
+        self.canvas.draw()
 
 
 if __name__ == "__main__":

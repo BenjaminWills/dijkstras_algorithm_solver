@@ -176,15 +176,14 @@ class Network:
         to_node : str
             Finishing node name
         """
-        routes = self.get_shortest_distances(from_node)
-        path_route = routes[to_node]
-        distance, node_list = path_route.values()
-
         graph = nx.DiGraph(self.adjacency_matrix)
         graph = nx.relabel_nodes(
             graph, {n: name for n, name in zip(range(self.num_nodes), self.node_names)}
         )
         if display:
+            routes = self.get_shortest_distances(from_node)
+            path_route = routes[to_node]
+            distance, node_list = path_route.values()
             pos = nx.spring_layout(graph)
             nx.draw_networkx(graph, pos)
             labels = nx.get_edge_attributes(graph, "weight")
