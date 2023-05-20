@@ -4,6 +4,7 @@ from typing import Dict, List, Union
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
+from tqdm import tqdm
 
 ROUTES = Dict[
     str, Dict[str, Union[List[str], float]]
@@ -33,8 +34,12 @@ class Network:
         ROUTES:
             A dictionary containing information on the distance to a node and it's path
         """
-        unvisited_nodes = {n: 1 for n in range(0, self.num_nodes)}
+        # Initialise progress bar
+        pbar = tqdm(total=self.num_nodes)
 
+        # Initialise nodes to visit
+        unvisited_nodes = {n: 1 for n in range(0, self.num_nodes)}
+        # Initialise route dictionary
         routes = {node_name: {"distance": 0, "route": [node_name]}}
 
         node = self.node_names.index(node_name)
@@ -76,9 +81,10 @@ class Network:
                         }
 
             unvisited_nodes[nearest_neighbour] = 0
+            pbar.update(1)
 
             last_visited = nearest_neighbour
-
+        pbar.update(1)
         return routes
 
     def init_distance_matrix(self, source_node: int) -> np.array:
@@ -204,4 +210,4 @@ if __name__ == "__main__":
     )
     node_names = list("ABCD")
     network = Network(adjacency_matrix, node_names)
-    print(network.get_shortest_distances(0))
+    print(network.get_shortest_distances("A"))
