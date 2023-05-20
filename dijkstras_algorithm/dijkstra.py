@@ -8,7 +8,9 @@ from typing import List, Dict, Union
 
 ROUTES = Dict[
     str, Dict[str, Union[List[str], float]]
-]  # Definition of the route dictionary
+]  # Definition of the route dictionary, has keys corresponding to the distance and the route to that node
+
+NODE_NAME = Union[str, int, object]  # The datatypes that can represent a node name
 
 
 class Network:
@@ -152,7 +154,16 @@ class Network:
         nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
         plt.show()
 
-    def highlight_fastest_path(self, from_node: str, to_node: str):
+    def highlight_fastest_path(self, from_node: NODE_NAME, to_node: NODE_NAME):
+        """Highlights the fastest path from any two nodes on the graph
+
+        Parameters
+        ----------
+        from_node : str
+            Starting node name
+        to_node : str
+            Finishing node name
+        """
         routes = self.get_shortest_distances(from_node)
         path_route = routes[to_node]
         distance, node_list = path_route.values()
