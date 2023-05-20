@@ -159,7 +159,7 @@ class Network:
         nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
         plt.show()
 
-    def highlight_fastest_path(self, from_node: NODE_NAME, to_node: NODE_NAME):
+    def highlight_fastest_path(self, from_node: NODE_NAME, to_node: NODE_NAME, ax=None):
         """Highlights the fastest path from any two nodes on the graph
 
         Parameters
@@ -197,17 +197,8 @@ class Network:
                 colour_map.append("black")
 
         # Colouring edges
-        nx.draw_networkx_edges(graph, pos, edge_color=colour_map)
+        nx.draw_networkx_edges(graph, pos, edge_color=colour_map, ax=ax)
         # Drawing the edge distance labels
-        nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
+        nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels, ax=ax)
         # Display the output
         plt.show()
-
-
-if __name__ == "__main__":
-    adjacency_matrix = np.array(
-        [[0, 3, 0, 1], [0, 0, 1, 0], [0, 0, 0, 0], [0, 1, 2, 0]]
-    )
-    node_names = list("ABCD")
-    network = Network(adjacency_matrix, node_names)
-    network.get_shortest_distances("A")
