@@ -1,5 +1,6 @@
 import string
 import tkinter as tk
+from tkinter import ttk
 
 import networkx as nx
 import numpy as np
@@ -81,6 +82,34 @@ class GraphWindow(tk.Tk):
                 row_entries.append(entry.get())
             self.matrix_entries.append(row_entries)
         self.distance_matrix = np.array(self.matrix_entries)
+
+        # Create a label and dropdown for the source node
+        source_label_col = 1
+        source_label_row = self.num_nodes + 1
+
+        source_label = ttk.Label(self.matrix_frame, text="Source Node:")
+        source_label.grid(row=source_label_row, column=source_label_col, padx=5, pady=0)
+        self.source_var = tk.StringVar()
+        self.source_dropdown = ttk.Combobox(
+            self.matrix_frame, textvariable=self.source_var
+        )
+        self.source_dropdown.grid(
+            row=source_label_row, column=source_label_col + 1, padx=5, pady=0
+        )
+
+        # Create a label and dropdown for the target node
+        target_label_col = 1
+        target_label_row = self.num_nodes + 2
+
+        target_label = ttk.Label(self.matrix_frame, text="Target Node:")
+        target_label.grid(row=target_label_row, column=target_label_col, padx=5, pady=5)
+        self.target_var = tk.StringVar()
+        self.target_dropdown = ttk.Combobox(
+            self.matrix_frame, textvariable=self.target_var
+        )
+        self.target_dropdown.grid(
+            row=target_label_row, column=target_label_col + 1, padx=5, pady=5
+        )
 
     def create_graph(self):
         # Set the matrix elements as edge weights in the graph
