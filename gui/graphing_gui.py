@@ -1,6 +1,7 @@
 import networkx as nx
 import tkinter as tk
 import numpy as np
+import string
 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -49,6 +50,12 @@ class GraphWindow(tk.Tk):
     def create_matrix(self):
         # Get the number of nodes from the entry box
         self.num_nodes = int(self.node_entry.get())
+        self.node_label_map = {
+            node_id: node_name
+            for node_id, node_name in zip(
+                range(self.num_nodes), string.ascii_uppercase[: self.num_nodes]
+            )
+        }
 
         # Clear the matrix frame
         for widget in self.matrix_frame.winfo_children():
@@ -56,9 +63,9 @@ class GraphWindow(tk.Tk):
 
         # Create labels for row/column headers
         for i in range(self.num_nodes):
-            row_label = tk.Label(self.matrix_frame, text=str(i + 1))
+            row_label = tk.Label(self.matrix_frame, text=self.node_label_map[i])
             row_label.grid(row=i + 1, column=0, sticky=tk.W)
-            col_label = tk.Label(self.matrix_frame, text=str(i + 1))
+            col_label = tk.Label(self.matrix_frame, text=self.node_label_map[i])
             col_label.grid(row=0, column=i + 1, sticky=tk.N)
 
         # Create an entry box for each matrix element
