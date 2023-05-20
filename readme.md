@@ -55,3 +55,5 @@ Run the `GUI` using:
 ```sh
 make start_gui
 ```
+
+The aim of this gui is to be able to play around with the shortest path algorithm.
