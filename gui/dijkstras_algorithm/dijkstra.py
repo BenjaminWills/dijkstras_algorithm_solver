@@ -144,7 +144,7 @@ class Network:
         )  # Nearest neighbour node name
         return nearest_neighbour
 
-    def draw_graph(self, display: bool = False):
+    def draw_graph(self, display: bool = False) -> nx.DiGraph:
         """
         Draws the graph with the weights and the node names
         """
@@ -166,7 +166,7 @@ class Network:
 
     def highlight_fastest_path(
         self, from_node: NODE_NAME, to_node: NODE_NAME, ax=None, display: bool = False
-    ):
+    ) -> nx.DiGraph:
         """Highlights the fastest path from any two nodes on the graph
 
         Parameters
