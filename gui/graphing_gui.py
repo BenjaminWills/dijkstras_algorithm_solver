@@ -49,12 +49,18 @@ class GraphWindow(tk.Tk):
         button = tk.Button(self, text="Create Graph", command=self.create_graph)
         button.pack()
 
+        # Create a button to find the fastest path
+        path_button = ttk.Button(
+            self, text="Find Fastest Path", command=self.draw_fastest_path
+        )
+        path_button.pack()
+
     def create_matrix(self):
         # Get the number of nodes from the entry box
         self.num_nodes = int(self.node_entry.get())
 
         # Label the nodes after letters rather than numbers
-        self.node_names = string.ascii_uppercase[: self.num_nodes]
+        self.node_names = list(string.ascii_uppercase[: self.num_nodes])
         self.node_label_map = {
             node_id: node_name
             for node_id, node_name in zip(range(self.num_nodes), self.node_names)
@@ -110,6 +116,8 @@ class GraphWindow(tk.Tk):
         self.target_dropdown.grid(
             row=target_label_row, column=target_label_col + 1, padx=5, pady=5
         )
+        self.source_dropdown["values"] = self.node_names
+        self.target_dropdown["values"] = self.node_names
 
     def create_graph(self):
         # Set the matrix elements as edge weights in the graph
@@ -129,6 +137,17 @@ class GraphWindow(tk.Tk):
         nx.draw(self.graph, pos, with_labels=True, ax=self.figure.add_subplot(111))
         # Update the canvas
         self.canvas.draw()
+
+    def draw_fastest_path(self):
+        # Get the selected source and target nodes
+        source_node = self.source_var.get()
+        target_node = self.target_var.get()
+
+        # Perform the fastest path calculation
+        # Replace with your own implementation
+        print("Finding fastest path...")
+        print("Source Node:", source_node)
+        print("Target Node:", target_node)
 
 
 if __name__ == "__main__":
