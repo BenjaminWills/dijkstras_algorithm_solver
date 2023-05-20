@@ -1,10 +1,9 @@
-import numpy as np
 import copy
-import networkx as nx
+from typing import Dict, List, Union
+
 import matplotlib.pyplot as plt
-
-
-from typing import List, Dict, Union
+import networkx as nx
+import numpy as np
 
 ROUTES = Dict[
     str, Dict[str, Union[List[str], float]]
