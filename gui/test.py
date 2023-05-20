@@ -12,7 +12,7 @@ class GraphWindow(tk.Tk):
         self.num_nodes = 0
 
         # Create a NetworkX graph
-        self.graph = nx.Graph()
+        self.graph = nx.DiGraph()
 
         # Create a figure for matplotlib
         self.figure = Figure(figsize=(5, 5))
@@ -90,7 +90,8 @@ class GraphWindow(tk.Tk):
         self.figure.clf()
 
         # Draw the NetworkX graph on the figure
-        nx.draw(self.graph, with_labels=True, ax=self.figure.add_subplot(111))
+        pos = nx.spring_layout(self.graph)
+        nx.draw(self.graph, pos, with_labels=True, ax=self.figure.add_subplot(111))
 
         # Update the canvas
         self.canvas.draw()
