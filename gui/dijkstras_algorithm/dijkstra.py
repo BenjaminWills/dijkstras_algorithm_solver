@@ -12,8 +12,6 @@ ROUTES = Dict[
 
 NODE_NAME = Union[str, int, object]  # The datatypes that can represent a node name
 
-# BUG: need to check if a neighbour has been visited before assigning a new nearest neighbour - otherwise feedback loop
-
 
 class Network:
     def __init__(
