@@ -149,7 +149,6 @@ class Network:
             for index, neighbour in enumerate(nearest_neighbours_copy):
                 if self.unvisited_nodes[index] == 0 or neighbour == 0:
                     nearest_neighbours_copy[index] = maximus + 1
-            print(nearest_neighbours_copy)
             nearest_neighbour = (
                 nearest_neighbours_copy.argmin()
             )  # Nearest neighbour node name
