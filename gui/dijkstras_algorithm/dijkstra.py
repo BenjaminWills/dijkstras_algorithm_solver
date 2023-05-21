@@ -58,6 +58,10 @@ class Network:
             nearest_neighbours = self.adjacency_matrix[last_visited, :]
             nearest_neighbour = self.get_nearest_neighbour(nearest_neighbours)
 
+            if nearest_neighbour == -1:
+                # EDGE CASE OF DISCONNECTED GRAPHS
+                break
+
             # The issue is we need to update ALL of the distances as this new vertex could reveal
             # a shorter route, so we do a for loop through all the applicable neighbours
             for index, neighbour in enumerate(nearest_neighbours):
@@ -134,15 +138,21 @@ class Network:
         int
             The index of the nearest neighbour
         """
-        nearest_neighbours_copy = copy.deepcopy(nearest_neighbours)
-        maximus = nearest_neighbours_copy.max()
-        nearest_neighbours_copy[nearest_neighbours_copy == 0] = (
-            maximus + 1
-        )  # We do this to stop nodes with no direct connecting edge being chosen
-        nearest_neighbour = (
-            nearest_neighbours_copy.argmin()
-        )  # Nearest neighbour node name
-        return nearest_neighbour
+
+        # EDGE CASE: When there are no nearest neighbours you must exit the alg!
+
+        if nearest_neighbours.any() == 0:
+            return -1
+        else:
+            nearest_neighbours_copy = copy.deepcopy(nearest_neighbours)
+            maximus = nearest_neighbours_copy.max()
+            nearest_neighbours_copy[nearest_neighbours_copy == 0] = (
+                maximus + 1
+            )  # We do this to stop nodes with no direct connecting edge being chosen
+            nearest_neighbour = (
+                nearest_neighbours_copy.argmin()
+            )  # Nearest neighbour node name
+            return nearest_neighbour
 
     def draw_graph(self, display: bool = False) -> nx.DiGraph:
         """
