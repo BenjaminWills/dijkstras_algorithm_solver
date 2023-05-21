@@ -20,7 +20,7 @@ class GraphWindow(tk.Tk):
         self.graph = nx.Graph()
 
         # Create a figure for matplotlib
-        self.figure = Figure(figsize=(7, 7))
+        self.figure = Figure(figsize=(6, 6))
 
         # Create a canvas for the figure
         self.canvas = FigureCanvasTkAgg(self.figure, master=self)
@@ -177,14 +177,16 @@ class GraphWindow(tk.Tk):
             else:
                 colour_map.append("black")
 
+        # Draw the network
+        nx.draw_networkx(self.graph, pos)
         # Colouring edges
         nx.draw_networkx_edges(
             self.graph, pos, edge_color=colour_map, ax=self.figure.add_subplot(111)
         )
         # Drawing the edge distance labels
-        # nx.draw_networkx_edge_labels(
-        #     self.graph, pos, edge_labels=labels, ax=self.figure.add_subplot(111)
-        # )
+        nx.draw_networkx_edge_labels(
+            self.graph, pos, edge_labels=labels, ax=self.figure.add_subplot(111)
+        )
         # Display the output
         # Update the canvas
         self.canvas.draw()
