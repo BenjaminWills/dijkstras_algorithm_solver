@@ -175,9 +175,15 @@ class GraphWindow(tk.Tk):
                 colour_map.append("black")
 
         # Colouring edges
-        nx.draw_networkx_edges(self.graph, self.pos, edge_color=colour_map)
+        # nx.draw_networkx_edges(self.graph, self.pos, edge_color=colour_map)
         # Draw the network
-        nx.draw(self.graph, self.pos, with_labels=True, ax=self.figure.add_subplot(111))
+        nx.draw(
+            self.graph,
+            self.pos,
+            with_labels=True,
+            edge_color=colour_map,
+            ax=self.figure.add_subplot(111),
+        )
         # Drawing the edge distance labels
         # NOTE: does not seem to work with TKinter :'( Not too sure why as it is just displaying an image.
         # nx.draw_networkx_edge_labels(
