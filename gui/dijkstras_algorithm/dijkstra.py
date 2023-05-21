@@ -147,7 +147,10 @@ class Network:
             nearest_neighbours_copy = copy.deepcopy(nearest_neighbours)
             maximus = nearest_neighbours_copy.max()
             for index, neighbour in enumerate(nearest_neighbours_copy):
-                if self.unvisited_nodes[index] == 0 or neighbour == 0:
+                already_visited: bool = self.unvisited_nodes[index] == 0
+                not_directly_connected: bool = neighbour == 0
+
+                if already_visited or not_directly_connected:
                     nearest_neighbours_copy[index] = maximus + 1
             nearest_neighbour = (
                 nearest_neighbours_copy.argmin()
