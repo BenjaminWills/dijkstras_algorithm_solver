@@ -12,6 +12,8 @@ ROUTES = Dict[
 
 NODE_NAME = Union[str, int, object]  # The datatypes that can represent a node name
 
+# BUG: need to check if a neighbour has been visited before assigning a new nearest neighbour - otherwise feedback loop
+
 
 class Network:
     def __init__(
@@ -38,20 +40,20 @@ class Network:
         pbar = tqdm(total=self.num_nodes)
 
         # Initialise nodes to visit
-        unvisited_nodes = {n: 1 for n in range(0, self.num_nodes)}
+        self.unvisited_nodes = {n: 1 for n in range(0, self.num_nodes)}
         # Initialise route dictionary
         routes = {node_name: {"distance": 0, "route": [node_name]}}
 
         node = self.node_names.index(node_name)
         # Visit source node
-        unvisited_nodes[node] = 0
+        self.unvisited_nodes[node] = 0
 
         last_visited = node
 
         # Get initial distance matrix
         distance_matrix = self.init_distance_matrix(node)
         # Start loop
-        while self.still_nodes_to_visit(unvisited_nodes):
+        while self.still_nodes_to_visit(self.unvisited_nodes):
             # Find nearest neighbours to the most recent visited node
             # Deep copy to avoid scoping issues
 
@@ -84,7 +86,7 @@ class Network:
                             "route": updated_route,
                         }
 
-            unvisited_nodes[nearest_neighbour] = 0
+            self.unvisited_nodes[nearest_neighbour] = 0
             pbar.update(1)
 
             last_visited = nearest_neighbour
@@ -146,9 +148,10 @@ class Network:
         else:
             nearest_neighbours_copy = copy.deepcopy(nearest_neighbours)
             maximus = nearest_neighbours_copy.max()
-            nearest_neighbours_copy[nearest_neighbours_copy == 0] = (
-                maximus + 1
-            )  # We do this to stop nodes with no direct connecting edge being chosen
+            for index, neighbour in enumerate(nearest_neighbours_copy):
+                if self.unvisited_nodes[index] == 0 or neighbour == 0:
+                    nearest_neighbours_copy[index] = maximus + 1
+            print(nearest_neighbours_copy)
             nearest_neighbour = (
                 nearest_neighbours_copy.argmin()
             )  # Nearest neighbour node name
