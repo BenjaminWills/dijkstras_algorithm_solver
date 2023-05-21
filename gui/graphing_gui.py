@@ -140,9 +140,16 @@ class GraphWindow(tk.Tk):
         # Clear the figure
         self.figure.clf()
 
+        # Get weight labels
+        labels = nx.get_edge_attributes(self.graph, "weight")
         # Draw the NetworkX graph on the figure
-        self.pos = nx.spring_layout(self.graph)
-        nx.draw(self.graph, self.pos, with_labels=True, ax=self.figure.add_subplot(111))
+        self.pos = nx.spring_layout(self.graph, weight="length")
+        nx.draw(
+            self.graph,
+            self.pos,
+            with_labels=True,
+            ax=self.figure.add_subplot(111),
+        )
         # Update the canvas
         self.canvas.draw()
 
@@ -174,8 +181,6 @@ class GraphWindow(tk.Tk):
             else:
                 colour_map.append("black")
 
-        # Colouring edges
-        # nx.draw_networkx_edges(self.graph, self.pos, edge_color=colour_map)
         # Draw the network
         nx.draw(
             self.graph,
