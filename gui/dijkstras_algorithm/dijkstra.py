@@ -168,7 +168,7 @@ class Network:
         )
         if display:
             pos = nx.spring_layout(graph)
-            nx.draw_networkx(graph, pos)
+            nx.draw_networkx(graph, pos, connectionstyle="arc3, rad = 0.1")
             labels = nx.get_edge_attributes(graph, "weight")
             nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
             plt.show()
@@ -195,7 +195,7 @@ class Network:
             path_route = routes[to_node]
             distance, node_list = path_route.values()
             pos = nx.spring_layout(graph)
-            nx.draw_networkx(graph, pos)
+            nx.draw_networkx(graph, pos, connectionstyle="arc3, rad = 0.1")
             labels = nx.get_edge_attributes(graph, "weight")
 
             # Creating the edge colour map
@@ -214,7 +214,13 @@ class Network:
                     colour_map.append("black")
 
             # Colouring edges
-            nx.draw_networkx_edges(graph, pos, edge_color=colour_map, ax=ax)
+            nx.draw_networkx_edges(
+                graph,
+                pos,
+                edge_color=colour_map,
+                ax=ax,
+                connectionstyle="arc3, rad = 0.1",
+            )
             # Drawing the edge distance labels
             nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels, ax=ax)
             # Display the output
