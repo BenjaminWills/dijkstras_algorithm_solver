@@ -57,3 +57,13 @@ make start_gui
 ```
 
 The aim of this gui is to be able to play around with the shortest path algorithm.
+
+## Non GUI use
+
+Check out the example by running the
+
+```sh
+make open_example
+```
+
+command, this is a notebook that goes through what the module can do.

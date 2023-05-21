@@ -5,3 +5,6 @@ save_requirements:
 
 start_gui:
 	python gui/graphing_gui.py
+
+open_example:
+	open ./non_gui_example.ipynb
