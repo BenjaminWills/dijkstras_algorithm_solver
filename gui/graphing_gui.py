@@ -85,9 +85,8 @@ class GraphWindow(tk.Tk):
                 entry = tk.Entry(self.matrix_frame, width=5)
                 entry.grid(row=i + 1, column=j + 1)
                 entry.insert(tk.END, 0)  # Set the default value to 0
-                row_entries.append(entry.get())
+                row_entries.append(entry)
             self.matrix_entries.append(row_entries)
-        self.distance_matrix = np.array(self.matrix_entries)
 
         # Create a label and dropdown for the source node
         source_label_col = 1
@@ -120,6 +119,15 @@ class GraphWindow(tk.Tk):
         self.target_dropdown["values"] = self.node_names
 
     def create_graph(self):
+        distance_list = []
+        for i in range(self.num_nodes):
+            row = []
+            for j in range(self.num_nodes):
+                row.append(int(self.matrix_entries[i][j].get()))
+            distance_list.append(row)
+
+        self.distance_matrix = np.array(distance_list)
+
         # Set the matrix elements as edge weights in the graph
         self.graph.clear()
         self.network = Network(self.distance_matrix, self.node_names)
@@ -139,7 +147,6 @@ class GraphWindow(tk.Tk):
         self.canvas.draw()
 
     def draw_fastest_path(self):
-
         # Clear the figure
         self.figure.clf()
 
@@ -175,9 +182,9 @@ class GraphWindow(tk.Tk):
             self.graph, pos, edge_color=colour_map, ax=self.figure.add_subplot(111)
         )
         # Drawing the edge distance labels
-        nx.draw_networkx_edge_labels(
-            self.graph, pos, edge_labels=labels, ax=self.figure.add_subplot(111)
-        )
+        # nx.draw_networkx_edge_labels(
+        #     self.graph, pos, edge_labels=labels, ax=self.figure.add_subplot(111)
+        # )
         # Display the output
         # Update the canvas
         self.canvas.draw()
