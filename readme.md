@@ -36,6 +36,39 @@ Now we can tackle the beast that is `Dijkstra's algorithm`. Here are the steps:
 2. Find all nodes that are `neighbours` of your node, meaning that they connect via an `edge`, for each edge found calculate the new distance to that node, if this distance is less than the distance stored in the distance list, replace that larger distance with this smaller one.
 3. Move to the nearest neighbour to the previous node and repeat step 2. Terminate the algorithm if all nodes have been visited, i.e when your list of unvisited nodes is empty.
 
+#### Worked example
+
+Suppose that we're looking at the graph from before: 
+
+<div style="text-align: center;">
+  <img src="./images/graph.png" alt="Graph" />
+  <p style="text-align: center;">A directed graph with 5 nodes.</p>
+</div>
+
+To begin the algorithm lets make a list of unvisited nodes: $[A,B,C,D,E]$, now lets choose A as our `root node`, i.e we will find the shortest distance to all nodes from `A`. Let us initialise our distance list too: $[0,∞,∞,∞,∞]$
+
+The neighbours of `A` are `B` and `D`, the nearest neighbour to A is `D` and therefore we select `D` as our next node. Before we do this we need to update our distance list: $[0,4,∞,2,∞]$.
+
+Now starting from `D`, our neighbours are `B` and `E`, the nearest of these is `B` which will be our next node. Before moving on we update the distance list to check if going through `D` leads to shorter distances: $[0,3,∞,2,8]$. Note 2 things here:
+
+1. The distance from `A` to `B` has changed from 4 to 3, this is because going from `A->D->B` is less costly than going from `A->B` directly! Hence we must change the entry in the distance list.
+2. The distance from `A` to `E` is 8, this is because we must first go to `D` and then to `E`, `A->D->E`, this leads to 2 + 6 = 8.
+
+Now we are at node `B`, `B` only connects to `C` and hence `C` is the nearest neighbour and will be the next node. Updating the distance list: $[0,3,8,2,8]$.
+
+Now `C` only connects to `E`, thus it shall be our next node. Updating the distance matrix at `C` we get: $[0,3,8,2,8]$.
+
+`E` connects to nothing so our algorithm is completed. Leaving us with the following distance list: $[0,3,8,2,8]$!
+
+So now we know:
+
+- `A->B` $= 3$
+- `A->C` $= 8$
+- `A->D` $= 2$
+- `A->E` $= 8$
+
+And we found this using Dijkstra's algorithm!
+
 ### Time complexity
 
 You may be asking why it would be worth it to use `Dijkstra's algorithm`, we use it due to its `logarithmic` time complexity, meaning that it performs very well for large graphs, the order of the algorithm is actually:
