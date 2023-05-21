@@ -159,5 +159,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 *test.py
-*DS_store**
+*DS_store*
 dijkstra_showcase.mov
+images/dijkstra_showcase.gif
+video_2_gif.py
