@@ -158,8 +158,6 @@ class GraphWindow(tk.Tk):
         routes = self.network.get_shortest_distances(source_node)
         path_route = routes[target_node]
         distance, node_list = path_route.values()
-        nx.draw_networkx(self.graph, self.pos)
-        labels = nx.get_edge_attributes(self.graph, "weight")
 
         # Creating the edge colour map
         node_pairs = []
@@ -176,13 +174,12 @@ class GraphWindow(tk.Tk):
             else:
                 colour_map.append("black")
 
-        # Draw the network
-        nx.draw(self.graph, self.pos, ax=self.figure.add_subplot(111))
         # Colouring edges
-        nx.draw_networkx_edges(
-            self.graph, self.pos, edge_color=colour_map, ax=self.figure.add_subplot(111)
-        )
+        nx.draw_networkx_edges(self.graph, self.pos, edge_color=colour_map)
+        # Draw the network
+        nx.draw(self.graph, self.pos, with_labels=True, ax=self.figure.add_subplot(111))
         # Drawing the edge distance labels
+        # NOTE: does not seem to work with TKinter :'( Not too sure why as it is just displaying an image.
         # nx.draw_networkx_edge_labels(
         #     self.graph, self.pos, edge_labels=labels, ax=self.figure.add_subplot(111)
         # )
