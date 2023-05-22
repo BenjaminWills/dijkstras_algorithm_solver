@@ -15,7 +15,7 @@ NODE_NAME = Union[str, int, object]  # The datatypes that can represent a node n
 
 class Network:
     def __init__(
-        self, adjacency_matrix: np.array, node_names: List[str] = None
+        self, adjacency_matrix: np.array, node_names: List[NODE_NAME] = None
     ) -> None:
         self.adjacency_matrix = adjacency_matrix
         self.num_nodes = adjacency_matrix.shape[0]
