@@ -12,7 +12,7 @@ ROUTES = Dict[
 
 NODE_NAME = Union[str, int, object]  # The datatypes that can represent a node name
 
-CONNECTION_STYLE = "arc3, rad = 0.1"
+CONNECTION_STYLE = "arc3"  # https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.ConnectionStyle.html#matplotlib.patches.ConnectionStyle
 
 
 class Network:
