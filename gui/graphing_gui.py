@@ -1,10 +1,17 @@
+# Importing from within another directory
+import sys
+
+path_to_dijkstra_file = "../dijkstras_algorithm_solver"
+
+sys.path.insert(0, path_to_dijkstra_file)
+
 import string
 import tkinter as tk
 from tkinter import ttk
 
 import networkx as nx
 import numpy as np
-from dijkstras_algorithm.dijkstra import Network
+from dijkstra import Network
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
