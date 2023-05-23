@@ -103,8 +103,10 @@ class GraphWindow(tk.Tk):
         source_label.grid(row=source_label_row, column=source_label_col, padx=5, pady=0)
         self.source_var = tk.StringVar()
         self.source_dropdown = ttk.Combobox(
-            self.matrix_frame, textvariable=self.source_var
+            self.matrix_frame,
+            textvariable=self.source_var,
         )
+        self.source_dropdown.bind("<<ComboboxSelected>>", self.update_dropdown)
         self.source_dropdown.grid(
             row=source_label_row, column=source_label_col + 1, padx=5, pady=0
         )
@@ -123,7 +125,11 @@ class GraphWindow(tk.Tk):
             row=target_label_row, column=target_label_col + 1, padx=5, pady=5
         )
         self.source_dropdown["values"] = self.node_names
-        self.target_dropdown["values"] = self.node_names
+
+    def update_dropdown(self, placeholder) -> None:
+        source_node = self.source_var.get()
+        self.routes = self.network.get_shortest_distances(source_node)
+        self.target_dropdown["values"] = list(self.routes.keys())
 
     def create_graph(self):
         distance_list = []
