@@ -12,6 +12,8 @@ ROUTES = Dict[
 
 NODE_NAME = Union[str, int, object]  # The datatypes that can represent a node name
 
+CONNECTION_STYLE = "arc3, rad = 0.1"
+
 
 class Network:
     def __init__(
@@ -171,7 +173,7 @@ class Network:
         )
         if display:
             pos = nx.spring_layout(graph)
-            nx.draw_networkx(graph, pos, connectionstyle="arc3, rad = 0.1")
+            nx.draw_networkx(graph, pos, connectionstyle=CONNECTION_STYLE)
             labels = nx.get_edge_attributes(graph, "weight")
             nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
             plt.show()
@@ -198,7 +200,7 @@ class Network:
             path_route = routes[to_node]
             distance, node_list = path_route.values()
             pos = nx.spring_layout(graph)
-            nx.draw_networkx(graph, pos, connectionstyle="arc3, rad = 0.1")
+            nx.draw_networkx(graph, pos, connectionstyle=CONNECTION_STYLE)
             labels = nx.get_edge_attributes(graph, "weight")
 
             # Creating the edge colour map
@@ -222,7 +224,7 @@ class Network:
                 pos,
                 edge_color=colour_map,
                 ax=ax,
-                connectionstyle="arc3, rad = 0.1",
+                connectionstyle=CONNECTION_STYLE,
             )
             # Drawing the edge distance labels
             nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels, ax=ax)
