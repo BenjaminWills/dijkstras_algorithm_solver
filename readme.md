@@ -2,6 +2,29 @@
 
 This is just a fun tool to visualise how Dijkstra`s algorithm works.
 
+## The GUI
+
+Run the `GUI` using:
+
+```sh
+make start_gui
+```
+
+The aim of this gui is to be able to play around with the shortest path algorithm.
+
+![dijkstra_showcase](https://github.com/BenjaminWills/dijkstras_algorithm_solver/assets/90726430/c5ce422f-2b3b-4851-9a50-0bb489174298)
+
+## Non GUI use
+
+Check out the example by running the
+
+```sh
+make open_example
+```
+
+command, this is a notebook that goes through what the module can do.
+
+
 ## The algorithm
 
 Dijkstra's algorithm allows us to find the shortest distance between any two nodes on a graph. But how does it work?
@@ -81,24 +104,3 @@ This means that for each edge added the time to run the algorithm increases mult
 
 Note that the proper way to make this algorithm efficient is to use C++ or some other `lower level` language than python!
 
-## The GUI
-
-Run the `GUI` using:
-
-```sh
-make start_gui
-```
-
-The aim of this gui is to be able to play around with the shortest path algorithm.
-
-![dijkstra_showcase](https://github.com/BenjaminWills/dijkstras_algorithm_solver/assets/90726430/c5ce422f-2b3b-4851-9a50-0bb489174298)
-
-## Non GUI use
-
-Check out the example by running the
-
-```sh
-make open_example
-```
-
-command, this is a notebook that goes through what the module can do.
