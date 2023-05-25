@@ -171,12 +171,10 @@ class GraphWindow(tk.Tk):
         self.figure.clf()
 
         # Get the selected source and target nodes
-        source_node = self.source_var.get()
         target_node = self.target_var.get()
 
         # Perform the fastest path calculation
-        routes = self.network.get_shortest_distances(source_node)
-        path_route = routes[target_node]
+        path_route = self.routes[target_node]
         distance, node_list = path_route.values()
 
         # Creating the edge colour map
