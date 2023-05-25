@@ -12,7 +12,7 @@ make start_gui
 
 The aim of this gui is to be able to play around with the shortest path algorithm.
 
-![dijkstra_showcase](https://github.com/BenjaminWills/dijkstras_algorithm_solver/assets/90726430/c5ce422f-2b3b-4851-9a50-0bb489174298)
+![dijkstra_showcase](https://github.com/BenjaminWills/dijkstras_algorithm_solver/assets/90726430/5a662aeb-1940-4949-8fb3-dbcf46b94da5)
 
 ## Non GUI use
 
