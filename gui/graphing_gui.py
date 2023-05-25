@@ -56,12 +56,6 @@ class GraphWindow(tk.Tk):
         button = tk.Button(self, text="Create Graph", command=self.create_graph)
         button.pack()
 
-        # Create a button to find the fastest path
-        path_button = ttk.Button(
-            self, text="Find Fastest Path", command=self.draw_fastest_path
-        )
-        path_button.pack()
-
     def create_matrix(self):
         # Get the number of nodes from the entry box
         self.num_nodes = int(self.node_entry.get())
@@ -125,6 +119,7 @@ class GraphWindow(tk.Tk):
             row=target_label_row, column=target_label_col + 1, padx=5, pady=5
         )
         self.source_dropdown["values"] = self.node_names
+        self.target_dropdown.bind("<<ComboboxSelected>>", self.draw_fastest_path)
 
     def update_dropdown(self, placeholder) -> None:
         source_node = self.source_var.get()
@@ -166,7 +161,7 @@ class GraphWindow(tk.Tk):
         # Update the canvas
         self.canvas.draw()
 
-    def draw_fastest_path(self):
+    def draw_fastest_path(self, placeholder):
         # Clear the figure
         self.figure.clf()
 
@@ -213,4 +208,5 @@ class GraphWindow(tk.Tk):
 if __name__ == "__main__":
     # Create the main window
     window = GraphWindow()
+    window.title("Dijkstra solver")
     window.mainloop()
