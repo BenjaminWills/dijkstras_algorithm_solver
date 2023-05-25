@@ -1,3 +1,7 @@
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue)](https://www.linkedin.com/in/benjamin-wills-b22887220/) <a href="mailto:benjaminwills047@gmail.com?subject=Dijkstras%20Algorithm&body=Hey%20Ben%2C%0D%0A%0D%0AI'm%20just%20emailing%20to%20ask...">
+  <img src="https://img.shields.io/badge/email-me-blue?logo=mail.ru" alt="Email Me">
+</a> ![GitHub issues](https://img.shields.io/github/issues/BenjaminWills/dijkstras_algorithm_solver) ![GitHub all releases](https://img.shields.io/github/downloads/BenjaminWills/dijkstras_algorithm_solver/total) ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/BenjaminWills/dijkstras_algorithm_solver) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/BenjaminWills/dijkstras_algorithm_solver)
+
 # Dijkstra's algorithm visualiser
 
 This is just a fun tool to visualise how Dijkstra`s algorithm works.
